@@ -117,18 +117,70 @@ $ gist REPORT.md
 
 ## Homework
 
-1. Скачайте библиотеку *boost* с помощью утилиты **wget**. Адрес для скачивания `https://sourceforge.net/projects/boost/files/boost/1.69.0/boost_1_69_0.tar.gz`.
-2. Разархивируйте скаченный файл в директорию `~/boost_1_69_0`
-3. Подсчитайте количество файлов в директории `~/boost_1_69_0` **не включая** вложенные директории.
-4. Подсчитайте количество файлов в директории `~/boost_1_69_0` **включая** вложенные директории.
-5. Подсчитайте количество заголовочных файлов, файлов с расширением `.cpp`, сколько остальных файлов (не заголовочных и не `.cpp`).
-6. Найдите полный пусть до файла `any.hpp` внутри библиотеки *boost*.
-7. Выведите в консоль все файлы, где упоминается последовательность `boost::asio`.
-8. Скомпилирутйе *boost*. Можно воспользоваться [инструкцией](https://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html#or-build-custom-binaries) или [ссылкой](https://codeyarns.com/2017/01/24/how-to-build-boost-on-linux/).
-9. Перенесите все скомпилированные на предыдущем шаге статические библиотеки в директорию `~/boost-libs`.
-10. Подсчитайте сколько занимает дискового пространства каждый файл в этой директории.
-11. Найдите *топ10* самых "тяжёлых".
+1. Скачайте библиотеку *boost* с помощью утилиты **wget**. Адрес для скачивания `https://sourceforge.net/projects/boost/files/boost/1.69.0/boost_1_69_0.tar.gz`. (wget https://sourceforge.net/projects/boost/files/boost/1.69.0/boost_1_69_0.tar.gz)
+3. Разархивируйте скаченный файл в директорию `~/boost_1_69_0`(-xf boost_1_69_0.tar.gz
+rm -rf boost_1_69_0.tar.gz)
+4. Подсчитайте количество файлов в директории `~/boost_1_69_0` **не включая** вложенные директории.(find . -type f -maxdepth 1 | wc -l
 
+12)
+5. Подсчитайте количество файлов в директории `~/boost_1_69_0` **включая** вложенные директории. (find . -type f | wc -l 
+
+61191)
+6. Подсчитайте количество заголовочных файлов, файлов с расширением `.cpp`, сколько остальных файлов (не заголовочных и не `.cpp`). (find . -type f -name "*.hpp" -o -name "*.h" | wc -l
+15208
+find . -type f -name "*.cpp" | wc -l
+13774)
+7. Найдите полный пусть до файла `any.hpp` внутри библиотеки *boost*. (tree  -f -P 'any.hpp' --prune
+
+.
+└── ./boost
+    ├── ./boost/any.hpp
+    ├── ./boost/fusion
+    │   ├── ./boost/fusion/algorithm
+    │   │   └── ./boost/fusion/algorithm/query
+    │   │       ├── ./boost/fusion/algorithm/query/any.hpp
+    │   │       └── ./boost/fusion/algorithm/query/detail
+    │   │           └── ./boost/fusion/algorithm/query/detail/any.hpp
+    │   └── ./boost/fusion/include
+    │       └── ./boost/fusion/include/any.hpp
+    ├── ./boost/hana
+    │   ├── ./boost/hana/any.hpp
+    │   └── ./boost/hana/fwd
+    │       └── ./boost/hana/fwd/any.hpp
+    ├── ./boost/proto
+    │   └── ./boost/proto/detail
+    │       └── ./boost/proto/detail/any.hpp
+    ├── ./boost/spirit
+    │   └── ./boost/spirit/home
+    │       └── ./boost/spirit/home/support
+    │           └── ./boost/spirit/home/support/algorithm
+    │               └── ./boost/spirit/home/support/algorithm/any.hpp
+    ├── ./boost/type_erasure
+    │   └── ./boost/type_erasure/any.hpp
+    └── ./boost/xpressive
+        └── ./boost/xpressive/detail
+            └── ./boost/xpressive/detail/utility
+                └── ./boost/xpressive/detail/utility/any.hpp)
+                
+8. Выведите в консоль все файлы, где упоминается последовательность `boost::asio`. (grep -rl 'boost::asio')з
+9. Скомпилирутйе *boost*. Можно воспользоваться [инструкцией](https://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html#or-build-custom-binaries) или [ссылкой](https://codeyarns.com/2017/01/24/how-to-build-boost-on-linux/). (./bootstrap.sh
+
+./b2)
+10. Перенесите все скомпилированные на предыдущем шаге статические библиотеки в директорию `~/boost-libs`. (mv stage/lib ~/boost-libs)
+11. Подсчитайте сколько занимает дискового пространства каждый файл в этой директории. (find . -type f -exec du -h {} '+')
+12. Найдите *топ10* самых "тяжёлых".
+(find . -type f -exec du -h {} '+' | sort -rn | head
+
+936K    ./libboost_unit_test_framework.so.1.69.0
+904K    ./libboost_graph.a
+860K    ./libboost_locale.so.1.69.0
+792K    ./libboost_wserialization.a
+732K    ./libboost_program_options.so.1.69.0
+620K    ./libboost_math_c99.a
+552K    ./libboost_math_c99l.a
+516K    ./libboost_math_c99f.a
+472K    ./libboost_serialization.so.1.69.0
+468K    ./libboost_thread.a)
 ```
 Copyright (c) 2015-2021 The ISC Authors
 ```
